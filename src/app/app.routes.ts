@@ -13,11 +13,6 @@ export const routes: Routes = [
       import('./features/post-details/post-details.component').then((m) => m.PostDetailsComponent),
   },
   {
-    path: 'favorites',
-    loadComponent: () =>
-      import('./features/favorites/favorites.component').then((m) => m.FavoritesComponent),
-  },
-  {
     path: 'gantt',
     loadComponent: () => import('./features/gantt/gantt.component').then((m) => m.GanttComponent),
   },
