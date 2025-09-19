@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { PostDetailsStoreService } from '../../core/store/post-details.store';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { GhostLoaders } from '../../shared/components/ghost-loaders/ghost-loaders';
+import {FavButton} from '../../shared/components/fav-button/fav-button';
 
 @Component({
   selector: 'app-post-details',
-  imports: [RouterLink, GhostLoaders],
+  imports: [RouterLink, GhostLoaders, FavButton],
   templateUrl: './post-details.component.html',
   providers: [PostDetailsStoreService],
 })

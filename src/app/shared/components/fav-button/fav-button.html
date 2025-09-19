@@ -1,0 +1,8 @@
+<button
+  type="button"
+  class="set-fav rounded-full px-3 py-1 text-sm border cursor-pointer hover:bg-gray-200 transition duration-400 ease-in-out"
+  (click)="favoritesStoreService.toggle(postId()); $event.stopPropagation()"
+>
+  <!--             TODO: ADD icons for star filled and empty star-->
+  {{ favoritesStoreService.has(postId()) ? 'mark not fav' : 'mark fav' }}
+</button>

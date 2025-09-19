@@ -4,10 +4,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PostsStoreService } from '../../core/store/posts.store';
 import { GhostLoaders } from '../../shared/components/ghost-loaders/ghost-loaders';
+import {FavButton} from '../../shared/components/fav-button/fav-button';
 
 @Component({
   selector: 'app-posts-list',
-  imports: [CommonModule, FormsModule, GhostLoaders],
+  imports: [CommonModule, FormsModule, GhostLoaders, FavButton],
   templateUrl: './posts-list.component.html',
 })
 export class PostsListComponent {

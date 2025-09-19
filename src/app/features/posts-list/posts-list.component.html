@@ -44,15 +44,7 @@
             <h3 class="text-lg font-semibold flex-1 leading-tight">
               {{ post.title }}
             </h3>
-            <!--  TODO: Move favourite btn to separate component-->
-            <button
-              type="button"
-              class="set-fav rounded-full px-3 py-1 text-sm border cursor-pointer hover:bg-gray-200 transition duration-400 ease-in-out"
-              (click)="toggleFavorite(post.id); $event.stopPropagation()"
-            >
-              <!--             TODO: ADD icons for star filled and empty star-->
-              {{ postsStoreService.isFavorite(post.id) ? 'mark not fav' : 'mark fav' }}
-            </button>
+          <app-fav-button [postId]="post.id"></app-fav-button>
           </div>
           <p class="mt-2 text-sm text-gray-500">
             {{ post.body | slice: 0 : 50 }}{{ post.body.length > 50 ? '…' : '' }}

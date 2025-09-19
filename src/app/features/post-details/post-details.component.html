@@ -28,15 +28,7 @@
               </p>
             </div>
           </div>
-          <!--  TODO: Move favourite btn to separate component-->
-          <button
-            type="button"
-            class="rounded-full px-3 py-1 text-sm border cursor-pointer hover:bg-gray-200 transition duration-400 ease-in-out"
-            (click)="toggleFavorite(data.post.id)"
-          >
-            <!--             TODO: ADD icons for star filled and empty star-->
-            {{ postDetailsStoreService.isFavorite(data.post.id) ? 'mark not fav' : 'mark fav' }}
-          </button>
+          <app-fav-button [postId]="data.post.id"></app-fav-button>
         </header>
         <article>
           <p>{{ data.post.body }}</p>
