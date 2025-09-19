@@ -34,8 +34,10 @@ export class PostsStoreService {
   private loadingSignal = signal<boolean>(false);
   private errorSignal = signal<unknown | null>(null);
   private rawPosts = signal<Post[]>([]);
+
   private hasLoaded = signal<boolean>(false);
   private lastUserIdFetched = signal<number | null>(null);
+
   private sub: Subscription | null = null;
 
   public constructor(
@@ -43,6 +45,10 @@ export class PostsStoreService {
     private favoritesStoreService: FavoritesStoreService,
   ) {
     effect((): void => this.ensureLoaded());
+  }
+
+  public getPost(postId: number): Post | undefined {
+    return this.posts().find(post => post.id === postId);
   }
 
   public ensureLoaded(): void {
