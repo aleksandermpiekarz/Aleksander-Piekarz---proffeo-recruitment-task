@@ -10,7 +10,8 @@ src/
 │   │   │   ├── posts.store.ts
 │   │   │   └── post-details.store.ts
 │   │   ├── http/                 # HTTP client layer
-│   │   │   └── api-http.service.ts
+│   │   │   └── posts-http.service.ts
+│   │   │   └── users-http.service.ts
 │   │   └── types/                # domain models (one file per entity type)
 │   │       ├── comment.model.ts
 │   │       ├── post.model.ts
