@@ -1,12 +1,11 @@
 import { Injectable, computed, signal } from '@angular/core';
-import { map, Subscription } from 'rxjs';
+import {map, of, take, throwError} from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { PostDetails } from '../../types/post-details';
 import { PostsHttpService } from '../../http/posts-http.service';
 import { UsersHttpService } from '../../http/users-http.service';
 import { PostsStoreService } from './posts.store';
 import { FavoritesStoreService } from './favourites.store';
-import {PostComment} from '../../types/post-comment';
 
 @Injectable()
 export class PostDetailsStoreService {
@@ -18,8 +17,6 @@ export class PostDetailsStoreService {
   private errorSignal = signal<unknown | null>(null);
   private dataSignal = signal<PostDetails | null>(null);
 
-  private sub: Subscription | null = null;
-
   constructor(
     private postsHttpService: PostsHttpService,
     private usersHttpService: UsersHttpService,
@@ -28,43 +25,35 @@ export class PostDetailsStoreService {
   ) {}
 
   public load(postId: number): void {
-    const post = this.postsStoreService.getPost(postId);
-
-    if (!post) {
-      this.dataSignal.set(null);
-      this.loadingSignal.set(false);
-      return;
-    }
-
-    // TODO: Think about better way to setup data without sub
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
-
     this.loadingSignal.set(true);
     this.errorSignal.set(null);
 
-    // TODO: Check if posts list has beed called, if not, call it
+    const ensureList$ = this.postsStoreService.hasLoaded()
+      ? of([])
+      : this.postsStoreService.fetchAndSave(null);
 
-    this.sub = this.postsHttpService
-      .getCommentsForPost(postId)
-      .pipe(
-        switchMap((comments: PostComment[]) =>
-          this.usersHttpService
-            .getUser(post.userId)
-            .pipe(map((user) => ({ post, user, comments: comments }) as PostDetails)),
-        ),
-      )
-      .subscribe({
-        next: (postDetails: PostDetails): void => {
-          this.dataSignal.set(postDetails);
+    ensureList$.pipe(
+      take(1),
+      map(() => this.postsStoreService.getPost(postId)),
+      switchMap(post => {
+        if (!post) return throwError(() => new Error('Post not found'));
+        return this.postsHttpService.getCommentsForPost(postId).pipe(
+          switchMap(comments =>
+            this.usersHttpService.getUser(post.userId).pipe(
+              map(user => ({ post, user, comments }) as PostDetails)
+            )
+          )
+        );
+      })
+    ).subscribe({
+        next: (details: PostDetails): void => {
+          this.dataSignal.set(details);
           this.loadingSignal.set(false);
         },
-        // TODO: No details about errors, need info to fix type
         error: (err: unknown): void => {
           this.errorSignal.set(err);
           this.loadingSignal.set(false);
-        },
+        }
       });
   }
 
