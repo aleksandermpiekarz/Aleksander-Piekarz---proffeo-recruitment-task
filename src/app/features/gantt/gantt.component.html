@@ -1,20 +1,22 @@
 <section class="mx-auto max-w-[1200px] p-4 space-y-4">
-  <h1 class="text-xl font-bold">Simple Gantt graph</h1>
+  <h1 class="text-xl font-bold">Gantt graph</h1>
 
   <div class="overflow-x-auto rounded-2xl border">
     <div class="min-w-[900px]">
-      <div class="grid grid-cols-[200px_repeat(31,1fr)]">
+<!-- TODO: note - there should be [class]="'grid-cols-[200px_repeat(' + days().length + ',minmax(24px,50px))]'" but adding value from var breaks it. I ran out of time.  -->
+      <div class="grid" [class]="'grid-cols-[200px_repeat(20,50px)]'">
         <div class="px-3 py-2 text-sm font-medium border-b bg-gray-200">Task</div>
 
-        @for (day of days(); track day) {
-          <div class="text-xs text-center py-2 border-b bg-gray-200">{{ day }}</div>
+        @for (day of days(); track day.getTime()) {
+          <div class="text-xs text-center py-2 border-b bg-gray-200">
+            {{ day | date: 'MMM d' }}
+          </div>
         }
 
         @for (task of tasks(); track task.id) {
           <div class="px-3 py-2 text-sm truncate border-b">{{ task.title }}</div>
-
-          @for (day of days(); track day) {
-            <div class="text-center border-b border-l  py-1">
+          @for (day of days(); track day.getTime()) {
+            <div class="text-center border-b border-l py-1">
               @if (isDayInTask(day, task)) {
                 x
               }
