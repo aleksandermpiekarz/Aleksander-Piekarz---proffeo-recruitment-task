@@ -1,7 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PostsStoreService } from '../../core/store/posts.store';
 
 @Component({
   selector: 'app-posts-list',
@@ -9,35 +10,40 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './posts-list.component.html',
 })
 export class PostsListComponent {
-  // Temporary mock
-  public posts = signal<any>([
-    {
-      userId: 1,
-      id: 1,
-      title: 'sunt aut facere repellat provident occaecati excepturi optio reprehenderit',
-      body: 'quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto',
-    },
-    {
-      userId: 1,
-      id: 2,
-      title: 'qui est esse',
-      body: 'est rerum tempore vitae\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla',
-    },
-  ]);
+  // TODO: Think if using postsStoreService straight in the template is a good idea
+  public postsStoreService = inject(PostsStoreService);
+
+  private filterOnlyFavorites = signal<boolean>(false);
+  private filterSearchText = signal<string>('');
+  private filterUserId = signal<number | null>(null);
 
   public constructor(private router: Router) {}
 
-  public apply(): void {}
+  public apply(): void {
+    this.postsStoreService.applyFilters({
+      searchText: this.filterSearchText(),
+      userId: this.filterUserId(),
+      onlyFavorites: this.filterOnlyFavorites(),
+    });
+  }
 
   public openDetails(id: number): void {
     this.router.navigate(['/posts', id]);
   }
 
-  public toggleFavorite(id: number): void {}
+  public toggleFavorite(id: number): void {
+    this.postsStoreService.toggleFavorite(id);
+  }
 
-  public filterOnlyFavorites(shouldFilter: boolean): void {}
+  public filterByFavorites(shouldFilter: boolean): void {
+    this.filterOnlyFavorites.set(shouldFilter);
+  }
 
-  public filterByUserId(userId: number): void {}
+  public filterByUserId(userId: number): void {
+    this.filterUserId.set(userId);
+  }
 
-  public filterByText(searchText: string): void {}
+  public filterByText(searchText: string): void {
+    this.filterSearchText.set(searchText);
+  }
 }
