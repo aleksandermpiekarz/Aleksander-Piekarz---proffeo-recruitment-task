@@ -6,6 +6,7 @@ import { PostsHttpService } from '../../http/posts-http.service';
 import { UsersHttpService } from '../../http/users-http.service';
 import { PostsStoreService } from './posts.store';
 import { FavoritesStoreService } from './favourites.store';
+import {PostComment} from '../../types/post-comment';
 
 @Injectable()
 export class PostDetailsStoreService {
@@ -48,7 +49,7 @@ export class PostDetailsStoreService {
     this.sub = this.postsHttpService
       .getCommentsForPost(postId)
       .pipe(
-        switchMap((comments) =>
+        switchMap((comments: PostComment[]) =>
           this.usersHttpService
             .getUser(post.userId)
             .pipe(map((user) => ({ post, user, comments: comments }) as PostDetails)),

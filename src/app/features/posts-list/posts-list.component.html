@@ -1,5 +1,5 @@
 <section class="mx-auto max-w-5xl p-4 space-y-4">
-  <header class="flex flex-col sm:flex-row gap-3 sm:items-end">
+  <header class="flex flex-col sm:flex-row gap-3 sm:items-end" (keydown.enter)="apply()">
     <div class="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-3">
       <input
         class="w-full rounded-xl border px-3 py-2"
@@ -31,6 +31,7 @@
     </button>
   </header>
 
+  <!--  TODO: Move ghost to separate component-->
   @if (postsStoreService.loading()) {
     <div class="space-y-4">
       <div
@@ -46,18 +47,19 @@
   } @else {
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       @for (post of postsStoreService.posts(); track post.id) {
-        <article class="rounded-2xl border p-4 shadow-lg">
+        <article
+          class="rounded-2xl border p-4 shadow-lg cursor-pointer hover:bg-gray-200 has-[.set-fav:hover]:bg-transparent transition duration-400 ease-in-out"
+          (click)="openDetails(post.id)"
+        >
           <div class="flex items-start gap-3">
-            <h3
-              class="text-lg font-semibold flex-1 leading-tight cursor-pointer"
-              (click)="openDetails(post.id)"
-            >
+            <h3 class="text-lg font-semibold flex-1 leading-tight">
               {{ post.title }}
             </h3>
+            <!--  TODO: Move favourite to separate component-->
             <button
               type="button"
-              class="rounded-full px-3 py-1 text-sm border cursor-pointer"
-              (click)="toggleFavorite(post.id)"
+              class="set-fav rounded-full px-3 py-1 text-sm border cursor-pointer hover:bg-gray-200 transition duration-400 ease-in-out"
+              (click)="toggleFavorite(post.id); $event.stopPropagation()"
             >
               <!--             TODO: ADD icons for star filled and empty star-->
               {{ postsStoreService.isFavorite(post.id) ? 'mark not fav' : 'mark fav' }}
