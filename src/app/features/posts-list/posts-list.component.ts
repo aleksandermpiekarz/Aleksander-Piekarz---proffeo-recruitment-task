@@ -3,10 +3,11 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PostsStoreService } from '../../core/store/posts.store';
+import { GhostLoaders } from '../../shared/components/ghost-loaders/ghost-loaders';
 
 @Component({
   selector: 'app-posts-list',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, GhostLoaders],
   templateUrl: './posts-list.component.html',
 })
 export class PostsListComponent {

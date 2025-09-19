@@ -6,31 +6,12 @@ src/
 ├── app/
 │   ├── core/                     # core layer with app-wide, reusable logic
 │   │   ├── store/                # application state management (signal stores, state connected services)
-│   │   │   ├── favorites.service.ts
-│   │   │   ├── posts.store.ts
-│   │   │   └── post-details.store.ts
 │   │   ├── http/                 # HTTP client layer
-│   │   │   └── posts-http.service.ts
-│   │   │   └── users-http.service.ts
+│   │   ├── shared/               # Elements shared app-wide
+│   │   │   └── components/       # Components shared app-wide
 │   │   └── types/                # domain models (one file per entity type)
-│   │       ├── comment.model.ts
-│   │       ├── post.model.ts
-│   │       ├── user.model.ts
-│   │       └── list-filters.model.ts
 │   │
-│   ├── features/                 # feature modules
-│   │   ├── posts-list/
-│   │   │   ├── posts-list.component.ts
-│   │   │   └── posts-list.component.html
-│   │   ├── post-details/
-│   │   │   ├── post-details.component.ts
-│   │   │   └── post-details.component.html
-│   │   ├── favorites/
-│   │   │   ├── favorites.component.ts
-│   │   │   └── favorites.component.html
-│   │   └── gantt/
-│   │       ├── gantt.component.ts
-│   │       └── gantt.component.html
+│   ├── features/                 # feature modules/views
 │   │
 │   ├── app.routes.ts
 │   ├── app.ts

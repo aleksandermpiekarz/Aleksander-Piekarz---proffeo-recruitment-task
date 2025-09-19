@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { PostDetailsStoreService } from '../../core/store/post-details.store';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { GhostLoaders } from '../../shared/components/ghost-loaders/ghost-loaders';
 
 @Component({
   selector: 'app-post-details',
-  imports: [RouterLink],
+  imports: [RouterLink, GhostLoaders],
   templateUrl: './post-details.component.html',
   providers: [PostDetailsStoreService],
 })

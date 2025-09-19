@@ -1,11 +1,12 @@
 <section class="mx-auto max-w-5xl p-4 space-y-4">
-  <a class="rounded-xl border px-4 py-2 inline-flex  hover:bg-gray-200 transition duration-400 ease-in-out" routerLink="/posts">Back to list</a>
+  <a
+    class="rounded-xl border px-4 py-2 inline-flex hover:bg-gray-200 transition duration-400 ease-in-out"
+    routerLink="/posts"
+    >Back to list</a
+  >
 
   @if (postDetailsStoreService.loading()) {
-    <!--  TODO: Move ghosts to separate component-->
-    <div
-      class="h-20 w-full animate-pulse rounded-2xl bg-gray-300 hover:bg-gray-400 transition duration-400 ease-in-out"
-    ></div>
+    <app-ghost-loaders></app-ghost-loaders>
   } @else {
     @if (postDetailsStoreService.data(); as data) {
       <div class="space-y-6">
@@ -13,7 +14,7 @@
           <div>
             <h1 class="text-2xl font-bold">{{ data.post.title }}</h1>
             <div class="text-gray-500 text-sm space-y-3">
-<!--              TODO: Find more appealing way to present this data-->
+              <!--              TODO: Find more appealing way to present this data-->
               <p>Author: {{ data.user.name }} ({{ data.user.email }})</p>
               <p>
                 {{ data.user.address.street }} {{ data.user.address.suite }}
