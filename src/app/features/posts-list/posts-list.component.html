@@ -37,6 +37,8 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       @for (post of postsStoreService.posts(); track post.id) {
         <article
+          animate.enter="fade-in"
+          animate.leave="fade-out"
           class="rounded-2xl border p-4 shadow-lg cursor-pointer hover:bg-gray-200 has-[.set-fav:hover]:bg-transparent transition duration-400 ease-in-out"
           (click)="openDetails(post.id)"
         >
@@ -44,7 +46,7 @@
             <h3 class="text-lg font-semibold flex-1 leading-tight">
               {{ post.title }}
             </h3>
-          <app-fav-button [postId]="post.id"></app-fav-button>
+            <app-fav-button [postId]="post.id"></app-fav-button>
           </div>
           <p class="mt-2 text-sm text-gray-500">
             {{ post.body | slice: 0 : 50 }}{{ post.body.length > 50 ? '…' : '' }}

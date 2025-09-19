@@ -22,7 +22,10 @@ src/
 ├── main.ts
 ├── styles.css
 ├── custom-theme.scss
-└── index.html
+├── index.html
+│
+└──css/                           # Reusable css classes / scripts
+    └── animations/               # Declared animations
   ```
 
 
